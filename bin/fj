@@ -1,0 +1,75 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var fs = require('fs');
+var path = require('path');
+var sh = require('shelljs');
+var _ = require('underscore');
+
+var gulp = require('gulp');
+
+var log = require('../lib/utils/log');
+var env = require('../lib/utils/env');
+var exec = require('../lib/utils/exec');
+
+// 取得当前可执行文件（软链接）实际指向的地址
+var fjFile = fs.realpathSync(process.argv[1]);
+var fjBinDir = path.dirname(fjFile);
+var fjHomeDir = path.dirname(fjBinDir);
+var gulpfile = path.join(fjHomeDir, "lib", "frontJet.js");
+
+function checkGlobalDependencies() {
+  if (!sh.which('gulp')) {
+    log.message("正在安装gulp，请稍候...");
+    var gulpResult = sh.exec('npm install -g gulp').code;
+    if (gulpResult) {
+      log.message("安装失败: " + gulpResult);
+      process.exit(gulpResult);
+    }
+  }
+
+  if (!sh.which('bower')) {
+    log.message("正在安装gulp，请稍候...");
+    var bowerResult = sh.exec('npm install -g bower').code;
+    if (bowerResult) {
+      log.message("安装失败: " + bowerResult);
+      process.exit(bowerResult);
+    }
+  }
+}
+
+function forwardToGulp(command, params) {
+  var configFile = path.join(env.folders.project, '/fj.conf.js');
+  if (command !== 'help' && command !== 'create' && command !== 'init' && !fs.existsSync(configFile)) {
+    console.log('项目中没有front-jet所需的配置文件，请先运行fj init命令进行初始化');
+    return process.exit(1);
+  }
+
+  // 工作目录和本工具所在的目录是不同的，需要分别指定
+  var args = ["--gulpfile", gulpfile, "--fjHome", fjHomeDir, "--cwd", process.cwd(), command];
+  _.each(params, function (value, key) {
+    if (!_.isUndefined(value)) {
+      args.push('--' + key);
+      args.push(value);
+    }
+  });
+  exec("gulp", args, fjHomeDir).catch(function (code) {
+    process.exit(code);
+  });
+}
+
+checkGlobalDependencies();
+
+var action = process.argv[2];
+// 去掉node, fj, action参数，以便子命令处理
+var subArgs = process.argv.slice(3);
+if (!action) {
+  action = 'help';
+}
+
+if (action === 'create') {
+  forwardToGulp(action, {name: subArgs[0], seed: subArgs[1]});
+} else {
+  forwardToGulp(action, subArgs);
+}
