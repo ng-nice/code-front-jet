@@ -1,6 +1,6 @@
 {
   "name": "fj",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "preferGlobal": "true",
   "description": "Frontend developer's Jet engine",
   "main": "fj",
@@ -23,7 +23,7 @@
     "name": "Zhicheng Wang<zcwang@thoughtworks.com>"
   },
   "license": "Apache 2.0",
-  "_id": "fj@0.3.1",
+  "_id": "fj",
   "_from": "fj@*",
   "readme": "README.md",
   "dependencies": {
