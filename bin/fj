@@ -4,7 +4,6 @@
 
 var fs = require('fs');
 var path = require('path');
-var sh = require('shelljs');
 var _ = require('underscore');
 
 var gulp = require('gulp');
@@ -17,27 +16,8 @@ var exec = require('../lib/utils/exec');
 var fjFile = fs.realpathSync(process.argv[1]);
 var fjBinDir = path.dirname(fjFile);
 var fjHomeDir = path.dirname(fjBinDir);
+var moduleBinDir = fjHomeDir + '/node_modules/.bin';
 var gulpfile = path.join(fjHomeDir, "lib", "frontJet.js");
-
-function checkGlobalDependencies() {
-  if (!sh.which('gulp')) {
-    log.message("正在安装gulp，请稍候...");
-    var gulpResult = sh.exec('npm install -g gulp').code;
-    if (gulpResult) {
-      log.message("安装失败: " + gulpResult);
-      process.exit(gulpResult);
-    }
-  }
-
-  if (!sh.which('bower')) {
-    log.message("正在安装gulp，请稍候...");
-    var bowerResult = sh.exec('npm install -g bower').code;
-    if (bowerResult) {
-      log.message("安装失败: " + bowerResult);
-      process.exit(bowerResult);
-    }
-  }
-}
 
 function forwardToGulp(command, params) {
   var configFile = path.join(env.folders.project, '/fj.conf.js');
@@ -59,8 +39,7 @@ function forwardToGulp(command, params) {
   });
 }
 
-checkGlobalDependencies();
-
+process.env.PATH = moduleBinDir + path.delimiter + process.env.PATH;
 var action = process.argv[2];
 // 去掉node, fj, action参数，以便子命令处理
 var subArgs = process.argv.slice(3);
