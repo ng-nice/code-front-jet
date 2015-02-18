@@ -8,16 +8,16 @@ var _ = require('underscore');
 
 var gulp = require('gulp');
 
-var log = require('../lib/utils/log');
-var env = require('../lib/utils/env');
-var exec = require('../lib/utils/exec');
+var log = require('../app/utils/log');
+var env = require('../app/utils/env');
+var exec = require('../app/utils/exec');
 
 // 取得当前可执行文件（软链接）实际指向的地址
 var fjFile = fs.realpathSync(process.argv[1]);
 var fjBinDir = path.dirname(fjFile);
 var fjHomeDir = path.dirname(fjBinDir);
 var moduleBinDir = fjHomeDir + '/node_modules/.bin';
-var gulpfile = path.join(fjHomeDir, "lib", "frontJet.js");
+var gulpfile = path.join(fjHomeDir, "app", "frontJet.js");
 
 function forwardToGulp(command, params) {
   var configFile = path.join(env.folders.project, '/fj.conf.js');

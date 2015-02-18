@@ -14,7 +14,7 @@ module.exports = function (config) {
       delay: 500  // 延迟毫秒数，可选
     },
     {
-      match: '^/api/books',
+      url: '^/api/books',
       delay: 3000
     }
   ];

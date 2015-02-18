@@ -18,11 +18,20 @@
   "trailing": true,
   "smarttabs": true,
   "white": true,
+  "validthis": true,
   "globals": {
-    "history": false,
-    "window": false,
-    "_": false,
-    "cordova": false,
-    "angular": false
+    "angular": false,
+    // Angular Mocks
+    "inject": false,
+    // JASMINE
+    "describe": false,
+    "it": false,
+    "before": false,
+    "beforeEach": false,
+    "after": false,
+    "afterEach": false,
+    "expect": false,
+    // underscore
+    "_": false
   }
 }

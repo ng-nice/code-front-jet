@@ -18,20 +18,57 @@
   <!-- bower:css -->
   <!-- endbower -->
   <!-- endbuild -->
-  <!-- build:css({.tmp,app}) main.css -->
+  <!-- build:css({.tmp/app,app}) main.css -->
   <link rel="stylesheet" href="main.css">
   <!-- endbuild -->
 
 </head>
 <body ng-app="app">
-<div ui-view></div>
+<app-layout></app-layout>
 <!-- build:js scripts/vendor.js -->
 <!-- bower:js -->
+<script src="../bower_components/modernizr/modernizr.js" charset="utf-8"></script>
+<script src="../bower_components/jquery/jquery.js" charset="utf-8"></script>
+<script src="../bower_components/angular/angular.js" charset="utf-8"></script>
+<script src="../bower_components/angular-animate/angular-animate.js" charset="utf-8"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.js" charset="utf-8"></script>
+<script src="../bower_components/angular-touch/angular-touch.js" charset="utf-8"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.js" charset="utf-8"></script>
+<script src="../bower_components/angular-resource/angular-resource.js" charset="utf-8"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js" charset="utf-8"></script>
+<script src="../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js" charset="utf-8"></script>
+<script src="../bower_components/moment/moment.js" charset="utf-8"></script>
+<script src="../bower_components/underscore/underscore.js" charset="utf-8"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({app,.tmp}) scripts/main.js -->
 <!-- inject:app:js -->
+<script src="services/interceptors/LoadingHandler.js" charset="utf-8"></script>
+<script src="services/interceptors/ErrorHandler.js" charset="utf-8"></script>
+<script src="services/interceptors/AuthHandler.js" charset="utf-8"></script>
+<script src="app.js" charset="utf-8"></script>
+<script src="services/consts/api.js" charset="utf-8"></script>
+<script src="services/configs/run.js" charset="utf-8"></script>
+<script src="services/configs/router.js" charset="utf-8"></script>
+<script src="services/configs/config.js" charset="utf-8"></script>
+<script src="controllers/home/index.js" charset="utf-8"></script>
+<script src="components/layout/menu.js" charset="utf-8"></script>
+<script src="components/layout/header.js" charset="utf-8"></script>
+<script src="components/layout/footer.js" charset="utf-8"></script>
+<script src="components/layout/_layout.js" charset="utf-8"></script>
+<script src="animations/expand.js" charset="utf-8"></script>
 <!-- endinject -->
 <!-- inject:libs:js -->
 <!-- endinject -->
@@ -45,6 +82,9 @@
 <!-- endinject -->
 <!-- inject:controllers:js -->
 <!-- endinject -->
+<!-- endbuild -->
+<!-- build:js({app,.tmp/shadow}) scripts/templates.js -->
+<script src="templates.js" charset="utf-8"></script>
 <!-- endbuild -->
 
 </body>
