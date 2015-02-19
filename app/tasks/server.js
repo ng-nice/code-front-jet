@@ -48,13 +48,14 @@ function delayMiddleware(req, res, next) {
 var proxy = httpProxy.createProxyServer({
   changeOrigin: true
 });
+// TODO: 当目标服务器不存在时，不应该返回pending
 proxy.on('error', function (e) {
   console.error('proxy: ', e);
+  proxy.close();
 });
-
 function proxyMiddleware(req, res, next) {
   var rules = getRulesFor(env.config, req.url);
-  // 重写的规则不需要层叠
+  // 代理的规则不需要层叠
   var rule = _.find(rules.reverse(), function (rule) {
     return rule.proxy;
   });
@@ -131,6 +132,7 @@ var isVirtualUrl = function (req) {
     // Not rewriting if the client does not accept HTML
     return false;
   }
+  // templates.js不要管
   if (req.url.endsWith('/templates.js')) {
     return false;
   }
@@ -159,8 +161,7 @@ function browserSyncInit(baseDir, files, port, browser) {
     server: {
       baseDir: baseDir,
       // 用户自定义的middleware优先。fork必须在historyApi前面，以便对fork处理后再判断是否存在
-      middleware: (env.config.middlewares || []).concat([delayMiddleware, proxyMiddleware,
-        forkMiddleware, historyApiMiddleware])
+      middleware: (env.config.middlewares || []).concat([delayMiddleware, proxyMiddleware, forkMiddleware, historyApiMiddleware])
     },
     browser: browser,
     port: port,

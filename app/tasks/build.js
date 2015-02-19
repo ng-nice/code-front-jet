@@ -146,6 +146,9 @@ gulp.task('wireBowerScss', ['bowerInstall'], function () {
 
 gulp.task('wireBower', ['wireBowerJs', 'wireBowerScss']);
 
+var sortByFileName = function(file1, file2) {
+  return -file1.relative.localeCompare(file2.relative);
+};
 gulp.task('wireAppJs', function () {
   // 按照约定优于配置的原则将js文件注入所有根目录下的文件
   var injectJs = function (files) {
@@ -162,6 +165,7 @@ gulp.task('wireAppJs', function () {
 
   var appFiles = gulp.src(getAppFiles('/**/*.js'), {base: env.folders.app});
   var sortedFiles = appFiles
+    .pipe(plugins.sort(sortByFileName))
     .pipe(plugins.angularFileSort());
 
   return gulp.src(env.folders.app + '/*.html')
@@ -191,7 +195,7 @@ gulp.task('wireAppScss', function () {
   var appFiles = gulp.src(getAppFiles(filter).concat(['!' + stylesPath + filter]), {base: stylesPath});
   //
   var sortedFiles = appFiles
-    .pipe(plugins.sort());
+    .pipe(plugins.sort(sortByFileName));
 
   return gulp.src(stylesPath + filter)
     .pipe(plugins.plumber())

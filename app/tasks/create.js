@@ -10,7 +10,7 @@ var log = require('../utils/log');
 var env = require('../utils/env');
 
 gulp.task('init', function () {
-  var configTemplate = env.folders.frontJet + '/seeds/default/fj.conf.js';
+  var configTemplate = env.folders.frontJet + '/app/assets/app/fj.conf.js';
 
   if (!fs.existsSync(configTemplate)) {
     log.error("样本文件 [ " + configTemplate + ' ] 不存在，请重新安装front-jet!');
