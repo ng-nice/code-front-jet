@@ -9,7 +9,6 @@ var log = require('../utils/log');
 gulp.task('watch', ['compile'], function () {
   // bower.json文件变化时重新安装并加载
   watch(env.folders.project + "/bower.json", function (file) {
-    log.debug(file.relative + '已更改');
     try {
       return runSequence('wireBower');
     } catch (e) {
@@ -18,7 +17,6 @@ gulp.task('watch', ['compile'], function () {
   });
   // 监控配置文件，修改时自动重新加载
   watch(env.folders.project + '/fj.conf.js', function (file) {
-    log.debug(file.relative + '已更改');
     try {
       return runSequence('config');
     } catch (e) {
@@ -26,7 +24,6 @@ gulp.task('watch', ['compile'], function () {
     }
   });
   watch([env.folders.app + "/**/*.scss"], function (file) {
-    log.debug(file.relative + '已更改');
     // 如果是删除文件则删除对应的css文件
     try {
       if (file.event === 'unlink') {
@@ -46,7 +43,6 @@ gulp.task('watch', ['compile'], function () {
     }
   });
   watch([env.folders.app + "/**/*.ts"], function (file) {
-    log.debug(file.relative + '已更改');
     try {
       // 如果是删除文件则删除对应的js文件
       if (file.event === 'unlink') {
@@ -61,7 +57,6 @@ gulp.task('watch', ['compile'], function () {
     }
   });
   watch([env.folders.app + "/**/*.coffee"], function (file) {
-    log.debug(file.relative + '已更改');
     try {
       // 如果是删除文件则删除对应的js文件
       if (file.event === 'unlink') {
@@ -76,7 +71,6 @@ gulp.task('watch', ['compile'], function () {
     }
   });
   watch([env.folders.app + "/**/*.svg"], function (file) {
-    log.debug(file.relative + '已更改');
     try {
       return runSequence('webFont');
     } catch (e) {
@@ -84,10 +78,20 @@ gulp.task('watch', ['compile'], function () {
     }
   });
   watch([env.folders.app + "/**/*.js", env.folders.temp + '/app/**/*.js'], function (file) {
-    log.debug(file.relative + '已更改');
     try {
       if (file.event === 'add' || file.event === 'unlink') {
-        return runSequence('wireAppJs');
+        // 添加删除文件时自动重新启动
+        return runSequence('wireAppJs', 'tddRestart');
+      }
+    } catch (e) {
+      log.error(e);
+    }
+  });
+  watch([env.folders.test + "/**/*.js", env.folders.temp + '/test/**/*.js'], function (file) {
+    try {
+      if (file.event === 'add' || file.event === 'unlink') {
+        // 添加删除文件时自动重新启动
+        return runSequence('tddRestart');
       }
     } catch (e) {
       log.error(e);

@@ -7,6 +7,8 @@ module.exports = {
   uglify: require('gulp-uglify'),
   minifyHtml: require('gulp-minify-html'),
   csso: require('gulp-csso'),
+  karma: require('../plugins/karma'),
+  protractor: require('gulp-protractor'),
   inject: require('gulp-inject'),
   imagemin: require('gulp-imagemin'),
   ngAnnotate: require('gulp-ng-annotate'),

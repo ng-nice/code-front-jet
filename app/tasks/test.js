@@ -4,8 +4,6 @@ var fs = require('fs');
 
 var gulp = require('gulp');
 var wiredep = require('wiredep');
-var karma = require('gulp-karma');
-var protractor = require('gulp-protractor');
 
 var env = require('../utils/env');
 var log = require('../utils/log');
@@ -40,27 +38,34 @@ var getTestFiles = function () {
 };
 gulp.task('ut', function () {
   return getTestFiles()
-    .pipe(karma({
+    .pipe(plugins.karma({
       configFile: env.folders.test + '/karma.conf.js',
       action: 'run'
     }))
     .on('error', function () {
       // Make sure failed tests cause gulp to exit non-zero
-      log.error("Unit test Failed!")
+      log.error('Unit test Failed!');
     });
 });
 
+var karmaProcess;
 gulp.task('tdd', function () {
-  // TODO: 看看添加/删除文件时是否有问题
-  return getTestFiles()
-    .pipe(karma({
+  getTestFiles()
+    .pipe(plugins.karma({
       configFile: env.folders.test + '/karma.conf.js',
       action: 'watch'
     }))
     .on('error', function () {
       // Make sure failed tests cause gulp to exit non-zero
-      log.error("Unit test Failed!")
+      log.error('Unit test Failed!')
+    })
+    .on('complete', function(process) {
+      karmaProcess = process;
     });
+});
+gulp.task('tddRestart', function () {
+  karmaProcess.kill();
+  return plugins.runSequence('tdd');
 });
 
 gulp.task('e2e', function (done) {
@@ -69,7 +74,7 @@ gulp.task('e2e', function (done) {
   ];
 
   gulp.src(testFiles)
-    .pipe(protractor.protractor({
+    .pipe(plugins.protractor.protractor({
       configFile: 'test/protractor.conf.js'
     }))
     .on('error', function (err) {

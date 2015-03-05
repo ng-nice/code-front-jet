@@ -173,7 +173,7 @@ gulp.task('reload', function () {
   browserSync.reload();
 });
 
-gulp.task('serve', ['config', 'watch'], function () {
+gulp.task('serve', ['config', 'watch', 'tdd'], function () {
   var port = +(env.args.port || env.args.p) || env.ports.server;
   browserSyncInit(
     baseDirs,
