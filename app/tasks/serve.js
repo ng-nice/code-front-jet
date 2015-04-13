@@ -109,6 +109,7 @@ function forkMiddleware(req, res, next) {
 }
 
 var baseDirs = [
+  '.',
   'app',
   '.tmp/app'
 ];
@@ -150,14 +151,24 @@ function historyApiMiddleware(req, res, next) {
   next();
 }
 
-function browserSyncInit(baseDir, files, port, browser) {
+function browserSyncInit(baseDir, files, port, success, browser) {
   browser = browser === undefined ? 'default' : browser;
 
   return browserSync({
+    ui: {
+      port: port,
+      weinre: {
+        port: 9090
+      }
+    },
+    routes: {
+      "/bower_components": env.folders.library
+    },
     files: files,
-    ghostMode: env.args.clone, // 默认禁止操作克隆功能，在开发阶段，同步操作带来的困扰大于收益
+    ghostMode: !!env.args.clone, // 默认禁止操作克隆功能，在开发阶段，同步操作带来的困扰大于收益
     https: env.args.s || env.args.https,
     startPath: '/index.html',
+    logPrefix: 'FJ',
     server: {
       baseDir: baseDir,
       // 用户自定义的middleware优先。fork必须在historyApi前面，以便对fork处理后再判断是否存在
@@ -165,15 +176,15 @@ function browserSyncInit(baseDir, files, port, browser) {
     },
     browser: browser,
     port: port,
-    open: false
-  });
+    open: 'ui'
+  }, success);
 }
 
 gulp.task('reload', function () {
   browserSync.reload();
 });
 
-gulp.task('serve', ['config', 'watch', 'tdd'], function () {
+gulp.task('serve', ['config', 'watch'], function () {
   var port = +(env.args.port || env.args.p) || env.ports.server;
   browserSyncInit(
     baseDirs,
@@ -187,7 +198,9 @@ gulp.task('serve', ['config', 'watch', 'tdd'], function () {
       'app/images/**/*',
       'app/fonts/**/*'
     ],
-    port);
+    port, function() {
+      gulp.start('tdd');
+    });
 });
 
 gulp.task('server', ['serve']);

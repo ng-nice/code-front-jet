@@ -1,6 +1,12 @@
 'use strict';
 
 angular.module('app').config(function ($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('default', {
+    url: '',
+    templateUrl: 'controllers/home/index.html',
+    controller: 'HomeIndexCtrl as vm'
+  });
+
   $stateProvider.state('home', {
     url: '/',
     templateUrl: 'controllers/home/index.html',

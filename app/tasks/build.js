@@ -27,18 +27,13 @@ var getAppFiles = function (filter) {
   return [env.folders.app + filter, '!' + env.folders.app + '/forks' + filter];
 };
 
-gulp.task('bowerExec', function () {
+gulp.task('bowerInstall', function () {
   // 用于CI系统时，请加上--ci参数
   return exec('bower', ['install', '--config.interactive=' + !env.args.ci, '--allow-root']).catch(function () {
     log.error("bower install失败，可能网络有问题或存在版本冲突，请手动运行bower install命令来解决它。");
     process.exit(1);
   });
 
-});
-gulp.task('bowerInstall', ['bowerExec'], function () {
-  // 只引用必要的文件，而不是把库文件全都包含进来。这些文件全都是根据bower.json的main属性过滤的
-  return gulp.src(env.folders.library + '/**/*')
-    .pipe(gulp.dest(env.folders.temp + '/app/bower_components'));
 });
 
 gulp.task('sass', function () {
@@ -52,8 +47,8 @@ gulp.task('sass', function () {
         file.path = file.path.replace(/\\/g, '/');
       }
     })
+    .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass({
-      sourceComments: 'map',
       includePaths: [
         env.folders.app + '/styles'
       ],
@@ -66,6 +61,7 @@ gulp.task('sass', function () {
         }
       }
     }))
+    .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(env.folders.temp + '/app'));
 });
 
@@ -146,7 +142,7 @@ gulp.task('wireBowerScss', ['bowerInstall'], function () {
 
 gulp.task('wireBower', ['wireBowerJs', 'wireBowerScss']);
 
-var sortByFileName = function(file1, file2) {
+var sortByFileName = function (file1, file2) {
   return -file1.relative.localeCompare(file2.relative);
 };
 gulp.task('wireAppJs', function () {

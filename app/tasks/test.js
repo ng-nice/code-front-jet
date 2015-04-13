@@ -59,13 +59,13 @@ gulp.task('tdd', function () {
       // Make sure failed tests cause gulp to exit non-zero
       log.error('Unit test Failed!')
     })
-    .on('complete', function(process) {
+    .on('complete', function (process) {
       karmaProcess = process;
     });
 });
 gulp.task('tddRestart', function () {
   karmaProcess.kill();
-  return plugins.runSequence('tdd');
+  plugins.runSequence('tdd');
 });
 
 gulp.task('e2e', function (done) {

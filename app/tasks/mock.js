@@ -9,10 +9,14 @@ var nodeMon = require('gulp-nodemon');
 gulp.task('mock', function () {
   nodeMon({
     script: env.folders.mock + '/server.js',
-    ext: 'js json coffee',
+    ext: 'js json coffee ts',
     env: {
       NODE_ENV: 'development',
-      NODE_PATH: [env.folders.mock + '/node_modules', env.folders.frontJet + '/node_modules', process.env.NODE_PATH].join(path.delimiter)
+      NODE_PATH: [
+        env.folders.mock + '/node_modules',
+        env.folders.frontJet + '/node_modules',
+        process.env.NODE_PATH
+      ].join(path.delimiter)
     },
     nodeArgs: ['--debug']
   });
