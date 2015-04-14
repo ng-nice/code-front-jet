@@ -3,7 +3,7 @@
 var chalk = require('chalk');
 var gutil = require('gulp-util');
 var Q = require('q');
-var _ = require('underscore');
+var _ = require('lodash');
 var notify = require('gulp-notify')({title: 'Front Jet Error Report'});
 var args = require('yargs').argv;
 

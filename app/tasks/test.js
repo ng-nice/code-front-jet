@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var gulp = require('gulp');
 var wiredep = require('wiredep');
-var _ = require('underscore');
+var _ = require('lodash');
 
 var env = require('../utils/env');
 var log = require('../utils/log');

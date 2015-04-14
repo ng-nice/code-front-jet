@@ -5,7 +5,7 @@ var fs = require('fs');
 var url = require('url');
 var path = require('path');
 
-var _ = require('underscore');
+var _ = require('lodash');
 
 var browserSync = require('browser-sync');
 var httpProxy = require('http-proxy');

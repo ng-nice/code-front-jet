@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var sh = require('shelljs');
 var exec = require('../utils/exec');
-var _ = require('underscore');
+var _ = require('lodash');
 
 
 var log = require('../utils/log');
