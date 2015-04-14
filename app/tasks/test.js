@@ -4,6 +4,7 @@ var fs = require('fs');
 
 var gulp = require('gulp');
 var wiredep = require('wiredep');
+var _ = require('underscore');
 
 var env = require('../utils/env');
 var log = require('../utils/log');
@@ -32,29 +33,48 @@ var getTestFiles = function () {
     // merge不能确保两个流中文件的顺序，所以稍微延迟一下，以确保bower的文件排在app文件的前面。
     .pipe(plugins.wait(200));
 
-  var testFiles = gulp.src(env.folders.test + '/unit/**/*.js', {read: false})
+  var htmlFiles = gulp.src([env.folders.app + '/**/*.html', '!' + env.folders.library + '/**/*.html'], {base: env.folders.app})
+    .pipe(plugins.wait(300));
+  var testFiles = gulp.src([env.folders.test + '/unit/**/*.js', env.folders.temp + '/test/unit/**/*.js'], {read: false})
     .pipe(plugins.wait(400));
-  return plugins.merge(bowerFiles, sortedFiles, testFiles);
+  return plugins.merge(bowerFiles, sortedFiles, htmlFiles, testFiles);
 };
+var karmaOptions = function (action) {
+  return _.extend({
+    basePath: env.folders.project,
+    configFile: env.folders.test + '/karma.conf.js',
+    frameworks: ['jasmine'],
+
+    browsers: ['PhantomJS'],
+    preprocessors: {
+      '**/*.html': ['ng-html2js']
+    },
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      moduleName: 'app'
+    },
+    plugins: [
+      'karma-phantomjs-launcher',
+      'karma-ng-html2js-preprocessor',
+      'karma-jasmine'
+    ]
+  }, {action: action});
+};
+
 gulp.task('ut', function () {
   return getTestFiles()
-    .pipe(plugins.karma({
-      configFile: env.folders.test + '/karma.conf.js',
-      action: 'run'
-    }))
+    .pipe(plugins.karma(karmaOptions('run')))
     .on('error', function () {
-      // Make sure failed tests cause gulp to exit non-zero
       log.error('Unit test Failed!');
+      // Make sure failed tests cause gulp to exit non-zero
+      process.exit(-1);
     });
 });
 
 var karmaProcess;
 gulp.task('tdd', function () {
   getTestFiles()
-    .pipe(plugins.karma({
-      configFile: env.folders.test + '/karma.conf.js',
-      action: 'watch'
-    }))
+    .pipe(plugins.karma(karmaOptions('watch')))
     .on('error', function () {
       // Make sure failed tests cause gulp to exit non-zero
       log.error('Unit test Failed!')

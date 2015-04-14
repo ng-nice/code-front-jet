@@ -42,7 +42,7 @@ gulp.task('watch', ['compile'], function () {
       log.error(e);
     }
   });
-  watch([env.folders.app + "/**/*.ts"], function (file) {
+  watch(env.folders.app + "/**/*.ts", function (file) {
     try {
       // 如果是删除文件则删除对应的js文件
       if (file.event === 'unlink') {
@@ -56,11 +56,67 @@ gulp.task('watch', ['compile'], function () {
       log.error(e);
     }
   });
-  watch([env.folders.app + "/**/*.coffee"], function (file) {
+  watch(env.folders.test + "/**/*.ts", function (file) {
+    try {
+      // 如果是删除文件则删除对应的js文件
+      if (file.event === 'unlink') {
+        var fileName = env.folders.temp + '/test/' + file.relative.replace(/\.ts$/, '.js');
+        if (fs.existsSync(fileName)) {
+          fs.unlinkSync(fileName);
+        }
+      }
+      return runSequence('typescript');
+    } catch (e) {
+      log.error(e);
+    }
+  });
+  watch(env.folders.app + "/**/*.es6", function (file) {
+    try {
+      // 如果是删除文件则删除对应的js文件
+      if (file.event === 'unlink') {
+        var fileName = env.folders.temp + '/app/' + file.relative.replace(/\.es6$/, '.js');
+        if (fs.existsSync(fileName)) {
+          fs.unlinkSync(fileName);
+        }
+      }
+      return runSequence('es6');
+    } catch (e) {
+      log.error(e);
+    }
+  });
+  watch(env.folders.test + "/**/*.es6", function (file) {
+    try {
+      // 如果是删除文件则删除对应的js文件
+      if (file.event === 'unlink') {
+        var fileName = env.folders.temp + '/test/' + file.relative.replace(/\.es6$/, '.js');
+        if (fs.existsSync(fileName)) {
+          fs.unlinkSync(fileName);
+        }
+      }
+      return runSequence('es6');
+    } catch (e) {
+      log.error(e);
+    }
+  });
+  watch(env.folders.app + "/**/*.coffee", function (file) {
     try {
       // 如果是删除文件则删除对应的js文件
       if (file.event === 'unlink') {
         var fileName = env.folders.temp + '/app/' + file.relative.replace(/\.coffee$/, '.js');
+        if (fs.existsSync(fileName)) {
+          fs.unlinkSync(fileName);
+        }
+      }
+      return runSequence('coffee');
+    } catch (e) {
+      log.error(e);
+    }
+  });
+  watch(env.folders.test + "/**/*.coffee", function (file) {
+    try {
+      // 如果是删除文件则删除对应的js文件
+      if (file.event === 'unlink') {
+        var fileName = env.folders.temp + '/test/' + file.relative.replace(/\.coffee$/, '.js');
         if (fs.existsSync(fileName)) {
           fs.unlinkSync(fileName);
         }

@@ -75,6 +75,19 @@ gulp.task('coffee', function () {
     .pipe(gulp.dest(env.folders.temp));
 });
 
+gulp.task('es6', function () {
+  return gulp.src([env.folders.project + '/**/*.es6', '!' + env.folders.library + '/**/*.es6'])
+    .pipe(plugins.plumber())
+    .pipe(plugins.sourcemaps.init())
+    .pipe(plugins.babel({}))
+    .on('error', log.error)
+    .pipe(plugins.sourcemaps.write())
+    .pipe(plugins.rename({
+      extname: ".js"
+    }))
+    .pipe(gulp.dest(env.folders.temp));
+});
+
 gulp.task('typescript', function () {
   return gulp.src([env.folders.project + '/**/*.ts', '!' + env.folders.project + '/**/*.d.ts'])
     .pipe(plugins.plumber())
@@ -291,7 +304,7 @@ gulp.task('buildManifest', function () {
 
 gulp.task('compile', function (done) {
   // 全部串行，以免出现两个并发任务同时操作同一个文件的问题，这些步骤中速度不是最重要的
-  plugins.runSequence('clean', 'bowerInstall', 'webFont', 'wireApp', 'wireBower', 'sass', 'coffee', 'typescript', done);
+  plugins.runSequence('clean', 'bowerInstall', 'webFont', 'wireApp', 'wireBower', 'sass', 'coffee', 'es6', 'typescript', done);
 });
 
 gulp.task('build', function (done) {
