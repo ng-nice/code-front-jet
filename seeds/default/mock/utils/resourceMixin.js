@@ -1,6 +1,6 @@
 'use strict';
 var restify = require('restify');
-var _ = require('underscore');
+var _ = require('lodash');
 
 module.exports = function (server) {
   server.resource = function (uri, items, name) {

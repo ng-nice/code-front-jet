@@ -6,7 +6,7 @@ describe('e2e范例，如果修改了首页，请修改本测试', function () {
     browser.get('http://localhost:5000');
   });
 
-  it('默认的标题是WeBank', function() {
+  it('默认的标题是Showcase', function() {
     expect(browser.getTitle()).toBe('Showcase');
   });
   it('默认的Home页内容', function () {
