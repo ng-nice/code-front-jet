@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, width=device-width">
+  <!--强制双核浏览器切换到webkit内核-->
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
   <title>Showcase</title>
+  <!--设置基地址，用于应对html5路径模式。如果没有部署在根路径下，请修改为相应的路径-->
+  <base href="/"/>
   <!-- build:css styles/app.css -->
   <!-- inject:app:css -->
   <!-- endinject -->
@@ -20,7 +23,6 @@
   <!-- build:css({.tmp/app,app}) main.css -->
   <link rel="stylesheet" href="main.css">
   <!-- endbuild -->
-
 </head>
 <body ng-app="app">
 <app-layout></app-layout>

@@ -131,17 +131,17 @@ var isVirtualUrl = function (req) {
   }
 
   var headers = req.headers;
-  // Not rewriting if the method is not GET.',
+  // 非GET请求不要管
   if (req.method !== 'GET') {
     return false;
-  } else if (!headers || typeof headers.accept !== 'string') {
-    // Not rewriting if the client did not send an HTTP accept header
+  } else if (!headers || !headers.accept) {
+    // 不带header或不带accept的不要管
     return false;
   } else if (headers.accept.indexOf('application/json') === 0) {
-    // Not rewriting if the client prefers JSON
+    // 请求json的不要管，这是api请求
     return false;
   } else if (!acceptsHtml(headers.accept)) {
-    // Not rewriting if the client does not accept HTML
+    // 不接受text/html的不要管，这不是由浏览器直接发起的
     return false;
   }
   // templates.js不要管
