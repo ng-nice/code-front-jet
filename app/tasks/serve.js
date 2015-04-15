@@ -48,11 +48,17 @@ function delayMiddleware(req, res, next) {
 var proxy = httpProxy.createProxyServer({
   changeOrigin: true
 });
-// TODO: 当目标服务器不存在时，不应该返回pending
-proxy.on('error', function (e) {
-  console.error('proxy: ', e);
-  proxy.close();
+proxy.on('error', function (e, req, res) {
+  res.writeHead(502, {
+    'Content-Type': 'text/plain;charset=utf-8'
+  });
+  if (e.code === 'ECONNREFUSED') {
+    res.end('网关错误！请检查反向代理对应的后端服务器是否启动成功。');
+  } else {
+    res.end('网关错误！未知原因，代码: ' + e.code);
+  }
 });
+
 function proxyMiddleware(req, res, next) {
   var rules = getRulesFor(env.config, req.url);
   // 代理的规则不需要层叠
@@ -88,7 +94,7 @@ function proxyMiddleware(req, res, next) {
 
 function replaceByFork(url, forkName) {
   // 如果对应的文件存在，则转发
-  if (url !== '/' && fs.existsSync(env.folders.app + '/forks/' + forkName + url)) {
+  if (url !== '/' && (fs.existsSync(env.folders.app + '/forks/' + forkName + url) || fs.existsSync(env.folders.temp + '/app/forks/' + forkName + url))) {
     return '/' + forkName + url;
   } else {
     return url;
@@ -96,9 +102,14 @@ function replaceByFork(url, forkName) {
 }
 // 根据agent中的操作系统信息来判断应该把请求转给谁，特别适用于处理手机版特有的文件
 function forkMiddleware(req, res, next) {
-  var ua = mobileAgent(req.headers['user-agent']);
+  var userAgent = req.headers['user-agent'];
+  var ua = mobileAgent(userAgent);
+  // 判断是否微信
+  var isWeChat = /micromessenger/.test(userAgent);
   // 根据请求方的agent决定该重定向到谁
-  if (ua.Android) {
+  if (isWeChat) {
+    req.url = replaceByFork(req.url, 'wechat');
+  } else if (ua.Android) {
     req.url = replaceByFork(req.url, 'android');
   } else if (ua.iOS || ua.iPhone) {
     req.url = replaceByFork(req.url, 'ios');
@@ -138,6 +149,7 @@ var isVirtualUrl = function (req) {
     return false;
   }
   var parsedUrl = url.parse(req.url);
+  // 已经存在的文件不要管
   var isInternal = _.any(baseDirs, function (dir) {
     return fs.existsSync(path.join(dir, parsedUrl.pathname));
   });
@@ -198,7 +210,7 @@ gulp.task('serve', ['config', 'watch'], function () {
       'app/images/**/*',
       'app/fonts/**/*'
     ],
-    port, function() {
+    port, function () {
       gulp.start('tdd');
     });
 });
