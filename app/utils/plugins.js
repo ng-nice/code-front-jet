@@ -17,7 +17,7 @@ module.exports = {
   sass: require('gulp-sass'),
   typescript: require('gulp-typescript'),
   coffee: require('gulp-coffee'),
-  babel: require('gulp-babel'),
+  es6: require('gulp-babel'),
   filter: require('gulp-filter'),
   rev: require('gulp-rev'),
   revReplace: require('gulp-rev-replace'),

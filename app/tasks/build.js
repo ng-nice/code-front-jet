@@ -87,7 +87,7 @@ gulp.task('es6', function () {
   return gulp.src(filesOf('es6'), {base: env.folders.project})
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.babel({}))
+    .pipe(plugins.es6())
     .on('error', log.error)
     .pipe(plugins.sourcemaps.write())
     .pipe(plugins.rename({
