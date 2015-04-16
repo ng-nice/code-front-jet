@@ -99,7 +99,11 @@ gulp.task('es6', function () {
 gulp.task('typescript', function () {
   return gulp.src(filesOf('ts').concat(['!' + env.folders.project + '/**/*.d.ts']), {base: env.folders.project})
     .pipe(plugins.plumber())
-    .pipe(plugins.tsc({sourcemap: true, declaration: true, emitError: false}))
+    .pipe(plugins.sourcemaps.init())
+    .pipe(plugins.typescript({
+      declarationFiles: true
+    })).js
+    .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(env.folders.temp));
 });
 

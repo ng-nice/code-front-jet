@@ -15,7 +15,7 @@ module.exports = {
   ngAnnotate: require('gulp-ng-annotate'),
   jshint: require('gulp-jshint'),
   sass: require('gulp-sass'),
-  tsc: require('gulp-tsc'),
+  typescript: require('gulp-typescript'),
   coffee: require('gulp-coffee'),
   babel: require('gulp-babel'),
   filter: require('gulp-filter'),
