@@ -1,13 +1,18 @@
 exports.config = {
-  capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': require('phantomjs').path
-  },
-
-  specs: ['test/e2e/**/*.js'],
-
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000
-  }
+  multiCapabilities: [
+    {
+      'browserName': 'phantomjs',
+      'phantomjs.binary.path': require('phantomjs').path,
+      'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+    },
+    //{
+    //  'browserName': 'chrome'
+    //},
+    //{
+    //  'browserName': 'firefox'
+    //},
+    //{
+    //  'browserName': 'ie'
+    //}
+  ]
 };

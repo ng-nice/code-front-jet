@@ -29,14 +29,10 @@ var getTestFiles = function () {
   var tmpFiles = gulp.src([env.folders.temp + '/app' + filter, '!' + env.folders.temp + '/app/bower_components' + filter], {base: env.folders.temp + '/app'});
   // 按照angular依赖关系排序
   var sortedFiles = plugins.merge(appFiles, tmpFiles)
-    .pipe(plugins.angularFileSort())
-    // merge不能确保两个流中文件的顺序，所以稍微延迟一下，以确保bower的文件排在app文件的前面。
-    .pipe(plugins.wait(200));
+    .pipe(plugins.angularFileSort());
 
-  var htmlFiles = gulp.src([env.folders.app + '/**/*.html', '!' + env.folders.library + '/**/*.html'], {base: env.folders.app})
-    .pipe(plugins.wait(300));
-  var testFiles = gulp.src([env.folders.test + '/unit/**/*.js', env.folders.temp + '/test/unit/**/*.js'], {read: false})
-    .pipe(plugins.wait(400));
+  var htmlFiles = gulp.src([env.folders.app + '/**/*.html', '!' + env.folders.library + '/**/*.html'], {base: env.folders.app});
+  var testFiles = gulp.src([env.folders.test + '/unit/**/*.js', env.folders.temp + '/test/unit/**/*.js'], {read: false}).pipe(plugins.debug());
   return plugins.merge(bowerFiles, sortedFiles, htmlFiles, testFiles);
 };
 var karmaOptions = function (action) {
@@ -88,13 +84,38 @@ gulp.task('tddRestart', function () {
   plugins.runSequence('tdd');
 });
 
-gulp.task('e2e', function (done) {
+gulp.task('e2e-install', function(done) {
+  plugins.protractor.webdriver_update(done);
+});
+gulp.task('e2e', ['e2e-install'], function (done) {
   var testFiles = [
-    env.folders.test + '/e2e/**/*.js'
+    env.folders.test + '/e2e/**/*.js',
+    '!' + env.folders.test + '/e2e/pages/**/*.js'
   ];
 
   gulp.src(testFiles)
     .pipe(plugins.protractor.protractor({
+      multiCapabilities: [
+        {
+          'browserName': 'phantomjs',
+          'phantomjs.binary.path': require('phantomjs').path,
+          'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+        },
+        {
+          'browserName': 'chrome'
+        },
+        {
+          'browserName': 'firefox'
+        },
+        {
+          'browserName': 'ie'
+        }
+      ],
+      specs: ['test/e2e/**/*.js'],
+      jasmineNodeOpts: {
+        showColors: true,
+        defaultTimeoutInterval: 30000
+      },
       configFile: 'test/protractor.conf.js'
     }))
     .on('error', function (err) {

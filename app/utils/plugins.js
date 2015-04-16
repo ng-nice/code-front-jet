@@ -28,7 +28,7 @@ module.exports = {
   sort: require('sort-stream'),
   useref: require('gulp-useref'),
   wiredep: require('wiredep').stream,
-  merge: require('merge-stream'),
+  merge: require('merge2'),
   angularFileSort: require('gulp-angular-filesort'),
   debug: require('gulp-debug'),
   wait: require('gulp-wait'),

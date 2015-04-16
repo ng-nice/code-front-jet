@@ -12,7 +12,6 @@ var _ = require('lodash');
 var log = require('../utils/log');
 var env = require('../utils/env');
 var plugins = require('../utils/plugins');
-var wireDep = require('wiredep');
 
 gulp.task('clean', function () {
   if (fs.existsSync(env.folders.build)) {
@@ -65,8 +64,17 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(env.folders.temp + '/app'));
 });
 
+var filesOf = function (extensionName) {
+  return [
+    env.folders.app + '/**/*.' + extensionName,
+    env.folders.test + '/**/*.' + extensionName,
+    env.folders.mock + '/**/*.' + extensionName,
+    '!' + env.folders.mock + '/node_modules/**/*.' + extensionName
+  ];
+};
+
 gulp.task('coffee', function () {
-  return gulp.src(env.folders.project + '/**/*.coffee')
+  return gulp.src(filesOf('coffee'), {base: env.folders.project})
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.coffee({bare: true}))
@@ -76,7 +84,7 @@ gulp.task('coffee', function () {
 });
 
 gulp.task('es6', function () {
-  return gulp.src([env.folders.project + '/**/*.es6', '!' + env.folders.library + '/**/*.es6'])
+  return gulp.src(filesOf('es6'), {base: env.folders.project})
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.babel({}))
@@ -89,7 +97,7 @@ gulp.task('es6', function () {
 });
 
 gulp.task('typescript', function () {
-  return gulp.src([env.folders.project + '/**/*.ts', '!' + env.folders.project + '/**/*.d.ts'])
+  return gulp.src(filesOf('ts').concat(['!' + env.folders.project + '/**/*.d.ts']), {base: env.folders.project})
     .pipe(plugins.plumber())
     .pipe(plugins.tsc({sourcemap: true, declaration: true, emitError: false}))
     .pipe(gulp.dest(env.folders.temp));
@@ -97,7 +105,7 @@ gulp.task('typescript', function () {
 
 gulp.task('lint', function () {
   // 第三方库的js不进行lint
-  return gulp.src(env.folders.app + '/**/*.js')
+  return gulp.src(filesOf('js'))
     .pipe(plugins.plumber())
     .pipe(plugins.jshint())
     .pipe(plugins.jshint.reporter('jshint-stylish'));
