@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, width=device-width">
+  <title>Showcase</title>
+  <!--设置基地址，用于应对html5路径模式。如果没有部署在根路径下，请修改为相应的路径-->
+  <base href="/"/>
+  <!-- build:css styles/app.css -->
+  <!-- inject:app:css -->
+  <!-- endinject -->
+  <!-- endbuild -->
+
+  <!-- build:css({.tmp/app,app}) main.css -->
+  <link rel="stylesheet" href="main.css">
+  <!-- endbuild -->
+</head>
+<body ng-app="app">
+<app-layout></app-layout>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="../bower_components/angular/angular.js" charset="utf-8"></script>
+<script src="../bower_components/angular-animate/angular-animate.js" charset="utf-8"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.js" charset="utf-8"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js" charset="utf-8"></script>
+<script src="../bower_components/ionic/release/js/ionic.js" charset="utf-8"></script>
+<script src="../bower_components/ionic/release/js/ionic-angular.js" charset="utf-8"></script>
+<script src="../bower_components/angular-resource/angular-resource.js" charset="utf-8"></script>
+<script src="../bower_components/angular-touch/angular-touch.js" charset="utf-8"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({app,.tmp}) scripts/main.js -->
+<!-- inject:app:js -->
+<script src="app.js" charset="utf-8"></script>
+<script src="animations/ease.js" charset="utf-8"></script>
+<script src="components/layout/_layout.js" charset="utf-8"></script>
+<script src="components/layout/footer.js" charset="utf-8"></script>
+<script src="components/layout/header.js" charset="utf-8"></script>
+<script src="components/layout/menu.js" charset="utf-8"></script>
+<script src="configs/config.js" charset="utf-8"></script>
+<script src="configs/router.js" charset="utf-8"></script>
+<script src="configs/run.js" charset="utf-8"></script>
+<script src="constants/api.js" charset="utf-8"></script>
+<script src="constants/page.js" charset="utf-8"></script>
+<script src="controllers/home/index.js" charset="utf-8"></script>
+<script src="controllers/home/notFound.js" charset="utf-8"></script>
+<script src="services/interceptors/AuthHandler.js" charset="utf-8"></script>
+<script src="services/interceptors/ErrorHandler.js" charset="utf-8"></script>
+<script src="services/interceptors/LoadingHandler.js" charset="utf-8"></script>
+<!-- endinject -->
+<!-- build:js({app,.tmp/shadow}) scripts/templates.js -->
+<script src="templates.js" charset="utf-8"></script>
+<!-- endbuild -->
+
+</body>
+</html>

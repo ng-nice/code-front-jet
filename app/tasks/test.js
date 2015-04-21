@@ -32,7 +32,7 @@ var getTestFiles = function () {
     .pipe(plugins.angularFileSort());
 
   var htmlFiles = gulp.src([env.folders.app + '/**/*.html', '!' + env.folders.library + '/**/*.html'], {base: env.folders.app});
-  var testFiles = gulp.src([env.folders.test + '/unit/**/*.js', env.folders.temp + '/test/unit/**/*.js'], {read: false}).pipe(plugins.debug());
+  var testFiles = gulp.src([env.folders.test + '/unit/**/*.js', env.folders.temp + '/test/unit/**/*.js'], {read: false});
   return plugins.merge(bowerFiles, sortedFiles, htmlFiles, testFiles);
 };
 var karmaOptions = function (action) {

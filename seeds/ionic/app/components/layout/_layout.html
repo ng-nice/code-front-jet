@@ -1,0 +1,16 @@
+<div class="platform-cordova app-layout" ng-class="vm.platformCss">
+  <layout-header></layout-header>
+  <ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+      <ion-content class="has-header has-footer padding">
+        <div ui-view></div>
+      </ion-content>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left">
+      <ion-content>
+        <layout-menu></layout-menu>
+      </ion-content>
+    </ion-side-menu>
+  </ion-side-menus>
+</div>
