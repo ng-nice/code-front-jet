@@ -145,7 +145,7 @@ var isVirtualUrl = function (req) {
     return false;
   }
   // templates.js不要管
-  if (req.url.endsWith('/templates.js')) {
+  if (/\/templates.js$/.test(req.url)) {
     return false;
   }
   var parsedUrl = url.parse(req.url);

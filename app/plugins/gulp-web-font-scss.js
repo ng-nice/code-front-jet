@@ -21,7 +21,7 @@ var scss = function() {
   return obj;
 };
 function gulpWebFontScss(options) {
-  if (!options.fontPath.endsWith('/')) {
+  if (!/\/$/.test(options.fontPath)) {
     options.fontPath = options.fontPath + '/';
   }
   // Generating SVG font and saving her
