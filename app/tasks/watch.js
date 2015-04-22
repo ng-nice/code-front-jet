@@ -10,7 +10,7 @@ gulp.task('watch', ['compile'], function () {
   // bower.json文件变化时重新安装并加载
   watch(env.folders.project + "/bower.json", function (file) {
     try {
-      return runSequence('wireBower');
+      runSequence('wireBower');
     } catch (e) {
       log.error(e);
     }
@@ -18,7 +18,7 @@ gulp.task('watch', ['compile'], function () {
   // 监控配置文件，修改时自动重新加载
   watch(env.folders.project + '/fj.conf.js', function (file) {
     try {
-      return runSequence('config');
+      runSequence('config');
     } catch (e) {
       log.error(e);
     }
@@ -34,9 +34,9 @@ gulp.task('watch', ['compile'], function () {
       }
       // 添加删除文件时需要重新wireAppScss
       if (file.event === 'add' || file.event === 'unlink') {
-        return runSequence('wireAppScss', 'sass');
+        runSequence('wireAppScss', 'sass');
       } else {
-        return runSequence('sass');
+        runSequence('sass');
       }
     } catch (e) {
       log.error(e);
@@ -51,7 +51,7 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('typescript');
+      runSequence('typescript');
     } catch (e) {
       log.error(e);
     }
@@ -65,7 +65,7 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('typescript');
+      runSequence('typescript');
     } catch (e) {
       log.error(e);
     }
@@ -79,7 +79,7 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('es6');
+      runSequence('es6');
     } catch (e) {
       log.error(e);
     }
@@ -93,7 +93,7 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('es6');
+      runSequence('es6');
     } catch (e) {
       log.error(e);
     }
@@ -107,7 +107,7 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('coffee');
+      runSequence('coffee');
     } catch (e) {
       log.error(e);
     }
@@ -121,14 +121,14 @@ gulp.task('watch', ['compile'], function () {
           fs.unlinkSync(fileName);
         }
       }
-      return runSequence('coffee');
+      runSequence('coffee');
     } catch (e) {
       log.error(e);
     }
   });
   watch([env.folders.app + "/**/*.svg"], function (file) {
     try {
-      return runSequence('webFont');
+      runSequence('webFont');
     } catch (e) {
       log.error(e);
     }
@@ -137,7 +137,7 @@ gulp.task('watch', ['compile'], function () {
     try {
       if (file.event === 'add' || file.event === 'unlink') {
         // 添加删除文件时自动重新启动
-        return runSequence('wireAppJs', 'tddRestart');
+        runSequence('wireAppJs', 'tddRestart');
       }
     } catch (e) {
       log.error(e);
@@ -147,7 +147,7 @@ gulp.task('watch', ['compile'], function () {
     try {
       if (file.event === 'add' || file.event === 'unlink') {
         // 添加删除文件时自动重新启动
-        return runSequence('tddRestart');
+        runSequence('tddRestart');
       }
     } catch (e) {
       log.error(e);
