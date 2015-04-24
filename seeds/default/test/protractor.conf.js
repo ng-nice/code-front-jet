@@ -1,9 +1,7 @@
 exports.config = {
   multiCapabilities: [
     {
-      'browserName': 'phantomjs',
-      'phantomjs.binary.path': require('phantomjs').path,
-      'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+      'browserName': 'phantomjs'
     },
     //{
     //  'browserName': 'chrome'

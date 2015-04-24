@@ -97,9 +97,7 @@ gulp.task('e2e', ['e2e-install'], function (done) {
     .pipe(plugins.protractor.protractor({
       multiCapabilities: [
         {
-          'browserName': 'phantomjs',
-          'phantomjs.binary.path': require('phantomjs').path,
-          'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+          'browserName': 'phantomjs'
         },
         {
           'browserName': 'chrome'

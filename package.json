@@ -1,6 +1,6 @@
 {
   "name": "fj",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "preferGlobal": "true",
   "description": "Frontend developer's Jet engine",
   "main": "fj",
