@@ -2,7 +2,7 @@
 
 'use strict';
 
-// rewrite from gulp-karma
+// 改写自 gulp-karma，导出server实例，以便重启它
 
 var gutil = require('gulp-util');
 var c = gutil.colors;
