@@ -18,7 +18,7 @@ var getRulesFor = function (config, url) {
   return _.filter(config.rules, function (rule) {
     if (_.isString(rule.url)) {
       // 如果是字符串，则只从开头位置匹配
-      rule.url = new RegExp('^' + rule.url + '/(.*)$');
+      rule.url = new RegExp('^' + rule.url.replace(/\/$/, '') + '/(.*)$');
     }
     return rule.url.test(url);
   });
@@ -36,7 +36,6 @@ function delayMiddleware(req, res, next) {
   var rules = getRulesFor(env.config, req.url);
   var rule = cascadeRules(rules);
   if (rule.delay) {
-    log.debug('[delay]', rule.delay + 'ms for ' + req.url);
     setTimeout(function () {
       next();
     }, rule.delay);
@@ -84,7 +83,6 @@ function proxyMiddleware(req, res, next) {
       }
       res.oldSetHeader(name, value);
     };
-    log.debug('[proxy]', req.url, ' => ', rule.proxy);
     req.url = req.url.replace(rule.url, rule.rewrite || '/$1');
     proxy.web(req, res, {target: rule.proxy});
   } else {
@@ -168,7 +166,6 @@ function browserSyncInit(baseDir, files, port, success, browser) {
 
   return browserSync({
     ui: {
-      port: port,
       weinre: {
         port: 9090
       }
