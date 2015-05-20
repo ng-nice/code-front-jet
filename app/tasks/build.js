@@ -283,13 +283,16 @@ gulp.task('copyIcons', function () {
 
 gulp.task('buildHome', function () {
   var jsFilter = plugins.filter('**/*.js');
+  var appJsFilter = plugins.filter('!**/vendor.js');
   var cssFilter = plugins.filter('**/*.css');
   var assets = plugins.useref.assets();
   return gulp.src('app/*.html')
     .pipe(assets)
     .pipe(plugins.rev())
-    .pipe(jsFilter)
+    .pipe(appJsFilter)
     .pipe(plugins.ngAnnotate())
+    .pipe(appJsFilter.restore())
+    .pipe(jsFilter)
     .pipe(plugins.uglify({preserveComments: plugins.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
