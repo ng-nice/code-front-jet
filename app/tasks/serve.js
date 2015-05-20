@@ -13,6 +13,7 @@ var mobileAgent = require('mobile-agent');
 
 var env = require('../utils/env');
 var log = require('../utils/log');
+var plugins = require('../utils/plugins');
 
 var getRulesFor = function (config, url) {
   return _.filter(config.rules, function (rule) {
@@ -213,6 +214,16 @@ gulp.task('serve', ['config', 'watch'], function () {
 });
 
 gulp.task('server', ['serve']);
+
+gulp.task('preview.reload', function() {
+  plugins.connect.reload();
+});
+gulp.task('preview', function() {
+  plugins.connect.server({
+    root: env.folders.build,
+    livereload: true
+  });
+});
 
 gulp.task('config', function () {
   var conf = require(env.folders.project + '/fj.conf.js');

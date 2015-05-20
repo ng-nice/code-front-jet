@@ -282,26 +282,22 @@ gulp.task('copyIcons', function () {
 });
 
 gulp.task('buildHome', function () {
-  var jsFilter = plugins.filter('**/*.js');
-  var appJsFilter = plugins.filter('!**/vendor.js');
-  var cssFilter = plugins.filter('**/*.css');
   var assets = plugins.useref.assets();
+  var isJs = function(file) {
+    return /^.*\.js$/.test(file.relative);
+  };
+  var isAppJs = function(file) {
+    return isJs(file) && !/^\w*\/vendor.*\.js$/.test(file.relative);
+  };
   return gulp.src('app/*.html')
     .pipe(assets)
     .pipe(plugins.rev())
-    .pipe(appJsFilter)
-    .pipe(plugins.ngAnnotate())
-    .pipe(appJsFilter.restore())
-    .pipe(jsFilter)
-    .pipe(plugins.uglify({preserveComments: plugins.uglifySaveLicense}))
-    .pipe(jsFilter.restore())
-    .pipe(cssFilter)
-    .pipe(plugins.csso())
-    .pipe(cssFilter.restore())
+    .pipe(plugins.if(isAppJs, plugins.ngAnnotate()))
+    .pipe(plugins.if(isJs, plugins.uglify()))
+    .pipe(plugins.if('*.css', plugins.csso()))
     .pipe(assets.restore())
     .pipe(plugins.useref())
     .pipe(plugins.revReplace())
-    .pipe(plugins.minifyHtml(htmlMinifyOptions))
     .pipe(gulp.dest(env.folders.build));
 });
 
@@ -324,5 +320,5 @@ gulp.task('compile', function (done) {
 
 gulp.task('build', function (done) {
   plugins.runSequence('compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyImages', 'copyViews',
-    'copyIcons', 'buildHome', 'buildManifest', done);
+    'copyIcons', 'buildHome', 'buildManifest', 'preview.reload', done);
 });

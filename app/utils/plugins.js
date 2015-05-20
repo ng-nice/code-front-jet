@@ -26,6 +26,8 @@ module.exports = {
   runSequence: require('run-sequence'),
   mainBowerFiles: require('main-bower-files'),
   sort: require('sort-stream'),
+  connect: require('gulp-connect'),
+  if: require('gulp-if'),
   useref: require('gulp-useref'),
   wiredep: require('wiredep').stream,
   merge: require('merge2'),
