@@ -37,6 +37,7 @@ gulp.task('bowerInstall', function () {
 
 gulp.task('sass', function () {
   return gulp.src(env.folders.app + '/styles/**/*.scss')
+    .pipe(plugins.plumber())
     // 解决windows下的gulp-sass bug：https://github.com/dlmanning/gulp-sass/issues/28
     .on('data', function (file) {
       if (process.platform === 'win32') {
@@ -290,6 +291,7 @@ gulp.task('buildHome', function () {
     return isJs(file) && !/^\w*\/vendor.*\.js$/.test(file.relative);
   };
   return gulp.src('app/*.html')
+    .pipe(plugins.plumber())
     .pipe(assets)
     .pipe(plugins.rev())
     .pipe(plugins.if(isAppJs, plugins.ngAnnotate()))

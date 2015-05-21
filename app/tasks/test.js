@@ -59,6 +59,7 @@ var karmaOptions = function (action) {
 
 gulp.task('ut', function () {
   return getTestFiles()
+    .pipe(plugins.plumber())
     .pipe(plugins.karma(karmaOptions('run')))
     .on('error', function () {
       log.error('Unit test Failed!');
@@ -70,6 +71,7 @@ gulp.task('ut', function () {
 var karmaProcess;
 gulp.task('tdd', function () {
   getTestFiles()
+    .pipe(plugins.plumber())
     .pipe(plugins.karma(karmaOptions('watch')))
     .on('error', function () {
       // Make sure failed tests cause gulp to exit non-zero
@@ -94,6 +96,7 @@ gulp.task('e2e', ['e2e-install'], function (done) {
   ];
 
   gulp.src(testFiles)
+    .pipe(plugins.plumber())
     .pipe(plugins.protractor.protractor({
       multiCapabilities: [
         {
