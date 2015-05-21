@@ -27,6 +27,7 @@ module.exports = {
   mainBowerFiles: require('main-bower-files'),
   sort: require('sort-stream'),
   connect: require('gulp-connect'),
+  open: require('gulp-open'),
   if: require('gulp-if'),
   useref: require('gulp-useref'),
   wiredep: require('wiredep').stream,

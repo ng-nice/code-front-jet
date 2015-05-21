@@ -21,7 +21,7 @@ var gulpfile = path.join(fjHomeDir, "app", "frontJet.js");
 
 function forwardToGulp(command, params) {
   var configFile = path.join(env.folders.project, '/fj.conf.js');
-  if (command !== 'help' && command !== 'create' && command !== 'init' && !fs.existsSync(configFile)) {
+  if (command !== 'help' && command !== 'create' && command !== 'init' && command !== 'static' && !fs.existsSync(configFile)) {
     console.log('项目中没有front-jet所需的配置文件，请先运行fj init命令进行初始化');
     return process.exit(1);
   }

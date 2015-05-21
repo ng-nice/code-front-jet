@@ -218,11 +218,21 @@ gulp.task('server', ['serve']);
 gulp.task('preview.reload', function() {
   plugins.connect.reload();
 });
-gulp.task('preview', function() {
+
+var serveStatic = function(root, port) {
+  port = port || env.ports.static;
   plugins.connect.server({
-    root: env.folders.build,
+    root: root,
+    port: port,
     livereload: true
   });
+};
+gulp.task('preview', function() {
+  return serveStatic(env.folders.build);
+});
+
+gulp.task('static', function() {
+  return serveStatic(process.cwd());
 });
 
 gulp.task('config', function () {

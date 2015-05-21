@@ -17,10 +17,12 @@ var mockDir = projectDir + '/mock';
 var testDir = projectDir + '/test';
 
 var SERVER_PORT = 5000;
+var STATIC_PORT = 15000;
 
 module.exports = {
   ports: {
-    server: SERVER_PORT
+    server: SERVER_PORT,
+    static: STATIC_PORT
   },
   args: args,
 
