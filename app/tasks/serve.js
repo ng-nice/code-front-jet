@@ -231,7 +231,7 @@ gulp.task('preview', function() {
   return serveStatic(env.folders.build);
 });
 
-gulp.task('static', function() {
+gulp.task('web', function() {
   return serveStatic(process.cwd());
 });
 

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('app').controller('LayoutFooterCtrl', function LayoutFooterCtrl() {
-  var vm = this;
+angular.module('app').controller('LayoutFooterCtrl', function LayoutFooterCtrl($scope) {
+  var vm = $scope.vm = {};
 
 });
 angular.module('app').directive('layoutFooter', function LayoutFooter() {
@@ -10,6 +10,6 @@ angular.module('app').directive('layoutFooter', function LayoutFooter() {
     scope: {},
     replace: true,
     templateUrl: 'components/layout/footer.html',
-    controller: 'LayoutFooterCtrl as vm'
+    controller: 'LayoutFooterCtrl'
   };
 });

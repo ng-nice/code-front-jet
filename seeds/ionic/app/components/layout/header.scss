@@ -1,11 +1,13 @@
-.bar.bar-header {
-  > * {
-    color: white;
-  }
-  .button.button-dark.button-clear {
-    color: white;
-  }
-  h1 {
-    font-size: 30px;
+app-header {
+  .bar.bar-header {
+    > * {
+      color: white;
+    }
+    .button.button-dark.button-clear {
+      color: white;
+    }
+    h1 {
+      font-size: 30px;
+    }
   }
 }
