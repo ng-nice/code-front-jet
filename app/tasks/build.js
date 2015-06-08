@@ -228,11 +228,12 @@ gulp.task('wireAppScss', function () {
 gulp.task('wireApp', ['wireAppJs', 'wireAppScss']);
 
 gulp.task('copyLibraries', function () {
-  var libraryPath = env.folders.temp + '/app/bower_components';
-  var files = [libraryPath + '/**/*'];
+  var files = plugins.mainBowerFiles();
+
+  var libraryPath = env.folders.project + '/bower_components';
   // js，css交给usemin去处理，中间文件不用拷贝过去
   _.each(['js', 'css', 'scss', 'less', 'coffee', 'ts', 'dart'], function (ext) {
-    files.push(ext);
+    files.push('!' + libraryPath + '/**/*.' + ext);
   });
 
   return gulp.src(files, {base: libraryPath})
