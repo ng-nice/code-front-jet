@@ -24,7 +24,7 @@ var getTestFiles = function () {
 
   var filter = '/**/*.js';
   // 添加app目录中除了bower之外的所有文件
-  var appFiles = gulp.src([env.folders.app + filter, '!' + env.folders.library + filter], {base: env.folders.app});
+  var appFiles = gulp.src([env.folders.app + filter, env.folders.app + '/**/*.test.js', '!' + env.folders.library + filter], {base: env.folders.app});
   // 添加临时目录下的文件，这些通常是coffee等文件的编译结果
   var tmpFiles = gulp.src([env.folders.temp + '/app' + filter, '!' + env.folders.temp + '/app/bower_components' + filter], {base: env.folders.temp + '/app'});
   // 按照angular依赖关系排序
