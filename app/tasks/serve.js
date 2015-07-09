@@ -14,6 +14,7 @@ var mobileAgent = require('mobile-agent');
 var env = require('../utils/env');
 var log = require('../utils/log');
 var plugins = require('../utils/plugins');
+var configure = require('../utils/configure');
 
 var getRulesFor = function (config, url) {
   return _.filter(config.rules, function (rule) {
@@ -215,11 +216,11 @@ gulp.task('serve', ['config', 'watch'], function () {
 
 gulp.task('server', ['serve']);
 
-gulp.task('preview.reload', function() {
+gulp.task('preview.reload', function () {
   plugins.connect.reload();
 });
 
-var serveStatic = function(root, port) {
+var serveStatic = function (root, port) {
   port = port || env.ports.static;
   plugins.connect.server({
     root: root,
@@ -227,16 +228,14 @@ var serveStatic = function(root, port) {
     livereload: true
   });
 };
-gulp.task('preview', function() {
+gulp.task('preview', function () {
   return serveStatic(env.folders.build);
 });
 
-gulp.task('web', function() {
+gulp.task('web', function () {
   return serveStatic(process.cwd());
 });
 
 gulp.task('config', function () {
-  var conf = require(env.folders.project + '/fj.conf.js');
-  env.config = {};
-  conf(env.config);
+  configure(env.folders.project + '/fj.conf.js', env.config);
 });

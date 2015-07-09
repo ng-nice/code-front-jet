@@ -1,5 +1,4 @@
 'use strict';
-
 var chalk = require('chalk');
 var gutil = require('gulp-util');
 var Q = require('q');
