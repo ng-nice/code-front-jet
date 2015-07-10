@@ -202,10 +202,12 @@ gulp.task('serve', ['config', 'watch'], function () {
     [
       '.tmp/app/**/*.css',
       '.tmp/app/**/*.js',
+      '!.tmp/app/**/*.test.js',
       'app/**/*.html',
       'app/**/*.htm',
       'app/**/*.css',
       'app/**/*.js',
+      '!app/**/*.test.js',
       'app/images/**/*',
       'app/fonts/**/*'
     ],

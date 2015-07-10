@@ -37,15 +37,6 @@ gulp.task('bowerInstall', function () {
 
 gulp.task('sass', function () {
   return gulp.src(env.folders.app + '/styles/**/*.scss')
-    // 解决windows下的gulp-sass bug：https://github.com/dlmanning/gulp-sass/issues/28
-    .on('data', function (file) {
-      if (process.platform === 'win32') {
-        // 变成相对路径
-        file.path = path.relative('.', file.path);
-        // 把反斜杠变成正斜杠
-        file.path = file.path.replace(/\\/g, '/');
-      }
-    })
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass({
       includePaths: [
@@ -184,7 +175,7 @@ gulp.task('wireAppJs', function () {
       });
   };
 
-  var appFiles = gulp.src(getAppFiles('/**/*.js'), {base: env.folders.app});
+  var appFiles = gulp.src(getAppFiles('/**/*.js').concat(['!' + env.folders.app + '/**/*.test.js', '!' + env.folders.temp + '/app/**/*.test.js']), {base: env.folders.app});
   var sortedFiles = appFiles
     .pipe(plugins.sort(sortByFileName))
     .pipe(plugins.angularFileSort());
