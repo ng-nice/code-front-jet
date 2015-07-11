@@ -279,7 +279,7 @@ gulp.task('buildHome', function () {
     return /^.*\.js$/.test(file.relative);
   };
   var isAppJs = function (file) {
-    return isJs(file) && !/^\w*\/vendor.*\.js$/.test(file.relative);
+    return isJs(file) && !/^\w*\/vendor.*\.js$/.test(toPosixPath(file.relative));
   };
   return gulp.src('app/*.html')
     .pipe(plugins.plumber())
