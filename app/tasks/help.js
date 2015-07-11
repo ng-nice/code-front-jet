@@ -8,11 +8,12 @@ var showHelp = require('../utils/help');
 gulp.task('help', function () {
   gutil.log(chalk.cyan("\n—— 服务管理 ——"));
   showHelp("fj serve [--port $PORT] [--https|-s] [--clone]", "利用浏览器进行开发，每个修改都会实时反馈到页面上。$PORT指定监听端口，默认为5000。如果指定了https，则使用https提供服务。如果指定了clone，则访问此服务的各个浏览器页面之间会进行操作克隆");
+  showHelp("fj mock", "启动mock服务器，用于在真正的后端实现之前虚拟出后端API");
 
   gutil.log(chalk.cyan("\n—— 自动化测试 ——"));
-  showHelp("fj ut", "执行单元测试。");
-  showHelp("fj tdd", "进行测试驱动开发。当用户修改任何js文件时，单元测试都会自动重新执行一遍。");
-  showHelp("fj e2e", "执行端到端测试，模拟用户操作。");
+  showHelp("fj ut", "执行单元测试");
+  showHelp("fj tdd", "进行测试驱动开发。当用户修改任何js文件时，单元测试都会自动重新执行一遍");
+  showHelp("fj e2e", "执行端到端测试，模拟用户操作");
   showHelp("fj test", "执行单元测试，然后执行端到端测试");
 
   gutil.log(chalk.cyan("\n—— 构建 ——"));
