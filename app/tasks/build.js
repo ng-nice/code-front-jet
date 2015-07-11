@@ -170,7 +170,7 @@ gulp.task('wireAppJs', function () {
         relative: true,
         transform: function (filepath, file) {
           // 自己的js统一使用utf-8格式
-          return '<script src="' + file.relative + '" charset="utf-8"></script>';
+          return '<script src="' + toPosixPath(file.relative) + '" charset="utf-8"></script>';
         }
       });
   };
@@ -196,7 +196,7 @@ gulp.task('wireAppScss', function () {
         endtag: '// endinject',
         relative: true,
         transform: function (filepath, file) {
-          return '@import "' + file.relative + '";';
+          return '@import "' + toPosixPath(file.relative) + '";';
         }
       });
   };
@@ -275,10 +275,10 @@ gulp.task('copyIcons', function () {
 
 gulp.task('buildHome', function () {
   var assets = plugins.useref.assets();
-  var isJs = function(file) {
+  var isJs = function (file) {
     return /^.*\.js$/.test(file.relative);
   };
-  var isAppJs = function(file) {
+  var isAppJs = function (file) {
     return isJs(file) && !/^\w*\/vendor.*\.js$/.test(file.relative);
   };
   return gulp.src('app/*.html')
@@ -315,3 +315,11 @@ gulp.task('build', function (done) {
   plugins.runSequence('compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyImages', 'copyViews',
     'copyIcons', 'buildHome', 'buildManifest', 'preview.reload', done);
 });
+
+var path = require('path');
+function toPosixPath(fileName) {
+  if (!fileName) {
+    return fileName;
+  }
+  return fileName.replace(/\\/g, '/');
+}
