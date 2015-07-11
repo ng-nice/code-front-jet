@@ -19,7 +19,7 @@ module.exports = function (server) {
       next();
     });
     server.get('/' + name + '/:id', function (req, res, next) {
-      var item = _.findWhere(items, {id: req.params.id});
+      var item = findById(items, req.params.id);
       if (!item) {
         next(new restify.NotFoundError('Object with ' + req.params.id + ' not found!'))
       } else {
@@ -35,7 +35,7 @@ module.exports = function (server) {
       next();
     });
     server.put('/' + name + '/:id', function (req, res, next) {
-      var item = _.findWhere(items, {id: req.params.id});
+      var item = findById(items, req.params.id);
       if (!item) {
         next(new restify.NotFoundError('Object with ' + req.params.id + ' not found!'))
       } else {
@@ -46,7 +46,7 @@ module.exports = function (server) {
       }
     });
     server.del('/' + name + '/:id', function (req, res, next) {
-      var item = _.findWhere(items, {id: req.params.id});
+      var item = findById(items, req.params.id);
       if (!item) {
         next(new restify.NotFoundError('Object with ' + req.params.id + ' not found!'))
       } else {
@@ -56,5 +56,11 @@ module.exports = function (server) {
         next();
       }
     });
+    // 支持资源列表中使用数字型id
+    function findById(items, id) {
+      return _.find(items, function (item) {
+        return item.id == id;
+      });
+    }
   };
 };
