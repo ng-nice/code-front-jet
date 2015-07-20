@@ -256,6 +256,11 @@ gulp.task('copyViews', function () {
     .pipe(gulp.dest(env.folders.temp + '/shadow'));
 });
 
+gulp.task('copyAssets', function () {
+  return gulp.src(env.folders.app + '/assets/**/*.*')
+    .pipe(gulp.dest(env.folders.build + '/assets'));
+});
+
 gulp.task('copyImages', function () {
   return gulp.src(env.folders.app + '/images/**/*.*')
     .pipe(plugins.plumber())
@@ -312,7 +317,7 @@ gulp.task('compile', function (done) {
 });
 
 gulp.task('build', function (done) {
-  plugins.runSequence('compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyImages', 'copyViews',
+  plugins.runSequence('compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyAssets', 'copyImages', 'copyViews',
     'copyIcons', 'buildHome', 'buildManifest', 'preview.reload', done);
 });
 
