@@ -47,7 +47,7 @@ var karmaOptions = function (action) {
     },
     ngHtml2JsPreprocessor: {
       stripPrefix: 'app/',
-      moduleName: 'app'
+      moduleName: env.config.name || 'app'
     },
     plugins: [
       'karma-phantomjs-launcher',

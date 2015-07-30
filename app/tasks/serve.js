@@ -178,7 +178,7 @@ function browserSyncInit(baseDir, files, port, success, browser) {
     files: files,
     ghostMode: !!env.args.clone, // 默认禁止操作克隆功能，在开发阶段，同步操作带来的困扰大于收益
     https: env.args.s || env.args.https,
-    startPath: '/index.html',
+    startPath: '/',
     logPrefix: 'FJ',
     server: {
       baseDir: baseDir,

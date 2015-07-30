@@ -2,6 +2,7 @@
 
 module.exports = function (config) {
   // 可以定义多条规则，后面的规则会覆盖前面的
+  config.name = 'app';
   config.rules = [
     {
       url: '/api', // 要代理的url，可以是正则表达式，也可以是字符串，如果是字符串(假设为'/api')则将被处理成/^\/api\/(.*)$/的形式

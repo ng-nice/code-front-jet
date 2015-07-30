@@ -249,7 +249,7 @@ gulp.task('copyViews', function () {
     .pipe(plugins.plumber())
     .pipe(plugins.minifyHtml(htmlMinifyOptions))
     .pipe(plugins.ngHtml2js({
-      moduleName: 'app',
+      moduleName: env.config.name || 'app',
       declareModule: false
     }))
     .pipe(plugins.concat('templates.js'))
