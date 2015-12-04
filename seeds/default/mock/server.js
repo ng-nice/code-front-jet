@@ -1,14 +1,11 @@
 'use strict';
 
 var restify = require('restify');
-var resourceMixin = require('./utils/resourceMixin');
 
 var server = restify.createServer({
   name: 'mock-server',
   version: '1.0.0'
 });
-
-resourceMixin(server);
 
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
@@ -24,7 +21,7 @@ server.pre(function (req, res, next) {
   next();
 });
 
-require('./routers')(server);
+require('./routes')(server);
 
 server.listen(5050, function () {
   console.log('Mock server listening at %s', server.url);

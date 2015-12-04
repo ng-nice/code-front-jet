@@ -6,6 +6,7 @@ tmp/
 npm-debug.log
 dist
 .DS_Store
+.status.json
 
 # Created by http://www.gitignore.io
 

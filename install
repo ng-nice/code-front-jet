@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+var spawnSync = require('child_process').spawnSync;
+var fs = require('fs');
+
+function loadJson(fileName) {
+  if (fs.existsSync(fileName)) {
+    var text = fs.readFileSync(fileName, 'utf-8');
+    return JSON.parse(text);
+  }
+}
+
+function saveJson(fileName, content) {
+  var text = JSON.stringify(content, null, 2);
+  fs.writeFileSync(fileName, text);
+}
+
+var packages = loadJson('./package.json');
+var status = loadJson('./.status.json') || {};
+
+function installPackages(packages) {
+  for (var name in packages) {
+    if (fs.existsSync('./node_modules/' + name) && status[name]) {
+      continue;
+    }
+    var version = packages[name];
+    var extension = process.platform === 'win32' ? '.cmd' : '';
+    var result = spawnSync('cnpm' + extension, ['install', '--verb', name + '@' + version], {stdio: 'inherit'});
+    status[name] = !result.error;
+    saveJson('./.status.json', status);
+  }
+}
+
+installPackages(packages.dependencies);
+installPackages(packages.devDependencies);
+
+spawnSync('cnpm', ['link'], {stdio: 'inherit'});
+
+spawnSync('fj', ['help'], {stdio: 'inherit'});
