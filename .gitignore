@@ -17,3 +17,4 @@ dist
 Session.vim
 .netrwhist
 *~
+.status.json
