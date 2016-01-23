@@ -264,7 +264,6 @@ gulp.task('copyAssets', function () {
 gulp.task('copyImages', function () {
   return gulp.src(env.folders.app + '/images/**/*.*')
     .pipe(plugins.plumber())
-    .pipe(plugins.imagemin())
     .pipe(gulp.dest(env.folders.build + '/images'));
 });
 

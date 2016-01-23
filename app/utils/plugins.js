@@ -11,7 +11,6 @@ module.exports = {
   karma: require('../plugins/karma'),
   protractor: require('gulp-protractor'),
   inject: require('gulp-inject'),
-  imagemin: require('gulp-imagemin'),
   ngAnnotate: require('gulp-ng-annotate'),
   jshint: require('gulp-jshint'),
   sass: require('gulp-sass'),

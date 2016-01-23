@@ -18,3 +18,4 @@ Session.vim
 .netrwhist
 *~
 .status.json
+.tmp/

@@ -150,7 +150,7 @@ var isVirtualUrl = function (req) {
   }
   var parsedUrl = url.parse(req.url);
   // 已经存在的文件不要管
-  var isInternal = _.any(baseDirs, function (dir) {
+  var isInternal = _.some(baseDirs, function (dir) {
     return fs.existsSync(path.join(dir, parsedUrl.pathname));
   });
   return !isInternal;
