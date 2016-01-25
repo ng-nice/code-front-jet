@@ -7,9 +7,7 @@ var runSequence = require('run-sequence');
 var log = require('../utils/log');
 
 gulp.task('watch', ['compile'], function () {
-  var options = {
-    usePolling: true
-  };
+  var options = {};
   // bower.json文件变化时重新安装并加载
   watch(env.folders.project + "/bower.json", options, function (file) {
     runSequence('wireBower');
