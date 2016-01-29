@@ -187,7 +187,6 @@ function browserSyncInit(baseDir, files, port, success, browser) {
     },
     browser: browser,
     port: port,
-    open: 'ui'
   }, success);
 }
 
