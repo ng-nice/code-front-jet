@@ -26,7 +26,7 @@ gulp.task('watch', ['compile'], function () {
     }
     // 添加删除文件时需要重新wireAppScss
     if (file.event === 'add' || file.event === 'unlink') {
-      runSequence('wireAppScss', 'sass');
+      runSequence('wireAppScss');
     } else {
       runSequence('sass');
     }

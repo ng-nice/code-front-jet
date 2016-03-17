@@ -38,18 +38,11 @@ gulp.task('bowerInstall', function () {
 gulp.task('sass', function () {
   return gulp.src(env.folders.app + '/styles/**/*.scss')
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.sass({
+    .pipe(plugins.sass.sync({
       includePaths: [
         env.folders.app + '/styles'
       ],
-      imagePath: env.folders.app + '/images',
-      onError: function (err) {
-        if (err.code === 1) {
-          log.error(err.file + ' @ ' + err.line + ':' + err.column + '. error: ' + err.message);
-        } else {
-          log.message(err.file + ' @ ' + err.line + ':' + err.column + '. level: ' + err.code + ', message:' + err.message)
-        }
-      }
+      imagePath: env.folders.app + '/images'
     }))
     .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(env.folders.temp + '/app'));
@@ -145,9 +138,12 @@ gulp.task('wireBowerJs', ['bowerInstall'], function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('wireBowerScss', ['bowerInstall'], function () {
-  return gulp.src(getAppFiles('/**/*.scss'))
+gulp.task('wireBowerCss', ['bowerInstall'], function () {
+  return gulp.src(env.folders.app + '/*.html')
     .pipe(plugins.plumber())
+    .pipe(plugins.filter(function (file) {
+      return /<!--\s*bower:css\s*-->/.test(file.contents);
+    }))
     .pipe(plugins.wiredep({
       directory: env.folders.library,
       dependencies: true,
@@ -156,7 +152,7 @@ gulp.task('wireBowerScss', ['bowerInstall'], function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('wireBower', ['wireBowerJs', 'wireBowerScss']);
+gulp.task('wireBower', ['wireBowerJs', 'wireBowerCss']);
 
 var sortByFileName = function (file1, file2) {
   return -file1.relative.localeCompare(file2.relative);
