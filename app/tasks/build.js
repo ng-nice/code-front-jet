@@ -118,7 +118,7 @@ gulp.task('webFont', function () {
     .pipe(gulp.dest(env.folders.temp + '/app/fonts'));
 });
 
-gulp.task('wireBowerJs', ['bowerInstall'], function () {
+gulp.task('wireBowerJs', function () {
   // 把对bower js的引用注入到html文件中
   return gulp.src(env.folders.app + '/*.html')
     .pipe(plugins.plumber())
@@ -138,7 +138,7 @@ gulp.task('wireBowerJs', ['bowerInstall'], function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('wireBowerCss', ['bowerInstall'], function () {
+gulp.task('wireBowerCss', function () {
   return gulp.src(env.folders.app + '/*.html')
     .pipe(plugins.plumber())
     .pipe(plugins.filter(function (file) {
@@ -152,7 +152,9 @@ gulp.task('wireBowerCss', ['bowerInstall'], function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('wireBower', ['wireBowerJs', 'wireBowerCss']);
+gulp.task('wireBower', function (done) {
+  plugins.runSequence('bowerInstall', 'wireBowerJs', 'wireBowerCss', done)
+});
 
 var sortByFileName = function (file1, file2) {
   return -file1.relative.localeCompare(file2.relative);
@@ -212,7 +214,9 @@ gulp.task('wireAppScss', function () {
     .pipe(gulp.dest(stylesPath));
 });
 
-gulp.task('wireApp', ['wireAppJs', 'wireAppScss']);
+gulp.task('wireApp', function (done) {
+  plugins.runSequence('wireAppJs', 'wireAppScss', done);
+});
 
 gulp.task('copyLibraries', function () {
   var files = plugins.mainBowerFiles();

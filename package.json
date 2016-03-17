@@ -1,11 +1,11 @@
 {
   "name": "fj",
-  "version": "0.4.23",
+  "version": "0.5.0",
   "preferGlobal": "true",
   "description": "Frontend developer's Jet engine",
   "main": "fj",
   "engines": {
-    "node": "4.x"
+    "node": ">= 4.0"
   },
   "engine-strict": true,
   "bin": {

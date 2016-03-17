@@ -28,8 +28,8 @@ gulp.task('init', function () {
 gulp.task('create', function () {
   var workDir = args.cwd;
 
-  var projectName = args.name;
-  var seed = args.seed || 'default';
+  var projectName = args._[1];
+  var seed = args._[2] || 'default';
 
   if (!projectName) {
     log.error("语法错误！用法：fj create 项目名称 [种子工程名，默认为default]");

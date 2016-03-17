@@ -69,6 +69,7 @@ gulp.task('ut', function () {
 });
 
 var karmaProcess;
+var tddRestarting = false;
 gulp.task('tdd', function () {
   getTestFiles()
     .pipe(plugins.plumber())
@@ -79,14 +80,23 @@ gulp.task('tdd', function () {
     })
     .on('complete', function (process) {
       karmaProcess = process;
-    });
+    }).on('end', function () {
+    // end有两种时机触发：用户按下了ctrl-c或由于增删文件而执行了tdd.restart。前者需要退出coral，后者则不需要退出
+    if (!tddRestarting) {
+      process.exit(-1);
+    }
+  });
 });
 gulp.task('tddRestart', function () {
+  tddRestarting = true;
   karmaProcess.kill();
   plugins.runSequence('tdd');
+  setTimeout(function () {
+    tddRestarting = false;
+  }, 500);
 });
 
-gulp.task('e2e-install', function(done) {
+gulp.task('e2e-install', function (done) {
   plugins.protractor.webdriver_update(done);
 });
 gulp.task('e2e', ['e2e-install'], function (done) {
