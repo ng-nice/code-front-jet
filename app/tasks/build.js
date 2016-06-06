@@ -7,6 +7,7 @@ var fs = require('fs');
 var sh = require('shelljs');
 var exec = require('../utils/exec');
 var _ = require('lodash');
+var configure = require('../utils/configure');
 
 
 var log = require('../utils/log');
