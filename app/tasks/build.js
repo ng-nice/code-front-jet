@@ -12,6 +12,8 @@ var _ = require('lodash');
 var log = require('../utils/log');
 var env = require('../utils/env');
 var plugins = require('../utils/plugins');
+var configure = require('../utils/configure');
+
 
 gulp.task('clean', function () {
   if (fs.existsSync(env.folders.build)) {
@@ -310,13 +312,17 @@ gulp.task('buildManifest', function () {
     }));
 });
 
+gulp.task('config', function () {
+  configure(env.folders.project + '/fj.conf.js', env.config);
+});
+
 gulp.task('compile', function (done) {
   // 全部串行，以免出现两个并发任务同时操作同一个文件的问题，这些步骤中速度不是最重要的
   plugins.runSequence('clean', 'bowerInstall', 'webFont', 'wireApp', 'wireBower', 'sass', 'coffee', 'es6', 'typescript', done);
 });
 
 gulp.task('build', function (done) {
-  plugins.runSequence('compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyAssets', 'copyImages', 'copyViews',
+  plugins.runSequence('config', 'compile', 'copyForks', 'copyLibraries', 'copyFonts', 'copyAssets', 'copyImages', 'copyViews',
     'copyIcons', 'buildHome', 'buildManifest', 'preview.reload', done);
 });
 
