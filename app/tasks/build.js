@@ -235,8 +235,8 @@ gulp.task('copyLibraries', function () {
 });
 gulp.task('copyForks', function () {
   // 如果指定了系统，则将其文件归并到主工程中，否则原样保留
-  var forkName = env.args.ios ? 'ios' : env.args.android ? 'android' : 'default';
-  return sh.cp('-r', env.folders.app + '/forks/' + forkName + '/*', env.folders.build);
+  //var forkName = env.args.ios ? 'ios' : env.args.android ? 'android' : 'default';
+  //return sh.cp('-r', env.folders.app + '/forks/' + forkName + '/*', env.folders.build);
 });
 
 var htmlMinifyOptions = {
