@@ -268,8 +268,8 @@ gulp.task('copyImages', function () {
 });
 
 gulp.task('copyFonts', function () {
-  return gulp.src(env.folders.temp + '/app/fonts')
-    .pipe(gulp.dest(env.folders.build));
+  return gulp.src(env.folders.app + '/fonts/**/*.*')
+    .pipe(gulp.dest(env.folders.build + '/fonts'));
 });
 
 gulp.task('copyIcons', function () {
